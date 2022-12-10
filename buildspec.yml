@@ -1,12 +1,14 @@
 version: 0.2
-Type: 'AWS::IAM::Policy'
-Properties:
-  PolicyName: CFNUsers
-  PolicyDocument:
-    Statement:
-      - Effect: Allow
-        Action:
-          - 'cloudformation:Describe*'
-          - 'cloudformation:List*'
-          - 'cloudformation:Get*'
-        Resource: '*'
+Resources:
+  myCustomerManagedPolicyForEC2:
+    Type: 'AWS::IAM::ManagedPolicy'
+    Properties:
+      ManagedPolicyName: customerManagedEC2ReadOnlyPolicy # give a name to this policy
+      Description: Customer managed policy for read only access to EC2 instance
+      Path: '/'
+      PolicyDocument: # (required) JSON policy document
+        Statement: # allow read only access to EC2 instance
+          - Effect: Allow
+            Action: 
+              - 'ec2:Describe'
+            Resource: '*'
