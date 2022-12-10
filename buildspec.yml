@@ -1,12 +1,12 @@
 version: 0.2
 Type: 'AWS::IAM::Policy'
 Properties:
-  PolicyName: root
+  PolicyName: CFNUsers
   PolicyDocument:
-    Version: "2012-10-17"
     Statement:
       - Effect: Allow
-        Action: '*'
+        Action:
+          - 'cloudformation:Describe*'
+          - 'cloudformation:List*'
+          - 'cloudformation:Get*'
         Resource: '*'
-  Roles:
-    - !Ref RootRole
