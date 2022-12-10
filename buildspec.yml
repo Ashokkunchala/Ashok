@@ -1,17 +1,11 @@
----
-version: 0.2
-Statement:
-- Sid: VisualEditor0
-  Effect: Allow
-  Action:
-  - s3:ListStorageLensConfigurations
-  - s3:ListAccessPointsForObjectLambda
-  - s3:ListBucketMultipartUploads
-  - s3:ListAllMyBuckets
-  - s3:ListAccessPoints
-  - s3:ListJobs
-  - s3:ListBucketVersions
-  - s3:ListBucket
-  - s3:ListMultiRegionAccessPoints
-  - s3:ListMultipartUploadParts
-  Resource: "*"
+Type: 'AWS::IAM::Policy'
+Properties:
+  PolicyName: root
+  PolicyDocument:
+    Version: "2012-10-17"
+    Statement:
+      - Effect: Allow
+        Action: '*'
+        Resource: '*'
+  Roles:
+    - !Ref RootRole
