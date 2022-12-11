@@ -1,30 +1,24 @@
-{
-    "Version": "2012-10-17",
-    "Id": "SSEAndSSLPolicy",
-    "Statement": [
-        {
-            "Sid": "DenyUnEncryptedObjectUploads",
-            "Effect": "Deny",
-            "Principal": "*",
-            "Action": "s3:PutObject",
-            "Resource": "arn:aws:s3:::codepipeline-ap-southeast-1-449978242056/*",
-            "Condition": {
-                "StringNotEquals": {
-                    "s3:x-amz-server-side-encryption": "aws:kms"
-                }
-            }
-        },
-        {
-            "Sid": "DenyInsecureConnections",
-            "Effect": "Deny",
-            "Principal": "*",
-            "Action": "s3:*",
-            "Resource": "arn:aws:s3:::codepipeline-ap-southeast-1-449978242056/*",
-            "Condition": {
-                "Bool": {
-                    "aws:SecureTransport": false
-                }
-            }
-        }
-    ]
-}
+Resources:
+  myCustomerManagedPolicyForEC2:
+    Type: 'AWS::IAM::ManagedPolicy'
+    Properties:
+      ManagedPolicyName: customerManagedEC2ReadOnlyPolicy
+      Description: Customer managed policy for read only access to EC2 instance
+      Path: '/'
+      PolicyDocument:JSON policy document 
+        version: 0.2
+        Statement: # allow read only access to EC2 instance
+          - Effect: Allow
+            Action: 
+              - 'ec2:Describe'
+            Resource: '*'
+      # IAM entities (Groups, Roles, and Users) are optional properties
+      Users: # attach this policy to the list of existing users
+          - Grafana
+          - # userB
+      # Groups: # attach this policy to the list of existing groups
+          - groupA
+          - groupB
+      # Roles: # attach this policy to the list of existing roles
+          - roleA
+          - roleB
