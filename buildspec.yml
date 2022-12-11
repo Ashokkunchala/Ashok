@@ -1,5 +1,5 @@
 ---
-Version: '2012-10-17'
+version: 0.2
 Id: SSEAndSSLPolicy
 Statement:
 - Sid: DenyUnEncryptedObjectUploads
