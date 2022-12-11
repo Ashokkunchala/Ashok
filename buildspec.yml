@@ -1,14 +1,20 @@
-version: 0.2
-Resources:
-  myCustomerManagedPolicyForEC2:
-    Type: 'AWS::IAM::ManagedPolicy'
-    Properties:
-      ManagedPolicyName: customerManagedEC2ReadOnlyPolicy # give a name to this policy
-      Description: Customer managed policy for read only access to EC2 instance
-      Path: '/'
-      PolicyDocument: # (required) JSON policy document
-        Statement: # allow read only access to EC2 instance
-          - Effect: Allow
-            Action: 
-              - 'ec2:Describe'
-            Resource: '*'
+---
+Version: '2012-10-17'
+Id: SSEAndSSLPolicy
+Statement:
+- Sid: DenyUnEncryptedObjectUploads
+  Effect: Deny
+  Principal: "*"
+  Action: s3:PutObject
+  Resource: arn:aws:s3:::codepipeline-ap-southeast-1-449978242056/*
+  Condition:
+    StringNotEquals:
+      s3:x-amz-server-side-encryption: aws:kms
+- Sid: DenyInsecureConnections
+  Effect: Deny
+  Principal: "*"
+  Action: s3:*
+  Resource: arn:aws:s3:::codepipeline-ap-southeast-1-449978242056/*
+  Condition:
+    Bool:
+      aws:SecureTransport: false
