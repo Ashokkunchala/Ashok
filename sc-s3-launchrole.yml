@@ -1,7 +1,7 @@
 Description: "ServiceCatalog S3 Launch Role. (fdp-1p5s1035s)"
 Resources:
   SCS3LaunchRole:
-    Type: 'AWS::IAM::policy'
+    Type: 'AWS::IAM::Role'
     Properties:
       RoleName: SCS3LaunchRole 
       ManagedPolicyArns:
@@ -19,6 +19,7 @@ Resources:
       Policies:
         - PolicyName: SCLaunchPolicy
           PolicyDocument:
+            Version: 0.2
             Statement:
               - Sid: SCLaunchPolicySID
                 Effect: Allow
@@ -38,7 +39,16 @@ Resources:
                   - "cloudformation:DescribeStackResources"
                   - "cloudformation:GetTemplate"
                   - "cloudformation:List*"
-          
+                  - "cloudformation:DescribeStackEvents"
+                  - "cloudformation:DescribeStacks"
+                  - "cloudformation:CreateStack"
+                  - "cloudformation:DeleteStack"
+                  - "cloudformation:DescribeStackEvents"
+                  - "cloudformation:DescribeStacks"
+                  - "cloudformation:GetTemplateSummary"
+                  - "cloudformation:SetStackPolicy"
+                  - "cloudformation:ValidateTemplate"
+                  - "cloudformation:UpdateStack"               
                 Resource: '*'
 Outputs:
     LaunchRoleArn:
