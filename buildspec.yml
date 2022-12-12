@@ -1,77 +1,17 @@
 version: 0.2
 
-CodeBuildServiceRole:
-    Type: AWS::IAM::Role
+Resources:
+  SCS3LaunchRole:
+    Type: 'AWS::IAM::Role'
     Properties:
-      Path: /
+      RoleName: SCS3LaunchRole 
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/AmazonS3FullAccess      
       AssumeRolePolicyDocument:
         Statement:
           - Effect: Allow
             Principal:
-              Service: codebuild.amazonaws.com
-            Action: sts:AssumeRole
-      Policies:
-        - PolicyName: "logs"
-          PolicyDocument:
-            Statement:
-                -
-                  Effect: "Allow"
-                  Action:
-                      - logs:CreateLogGroup
-                      - logs:CreateLogStream
-                      - logs:PutLogEvents
-                      - ecr:GetAuthorizationToken
-                      - ssm:GetParameters
-                  Resource: "*"
-        - PolicyName: "S3"
-          PolicyDocument:
-            Statement:
-                -
-                  Effect: "Allow"
-                  Action:
-                      - s3:GetObject
-                      - s3:PutObject
-                      - s3:GetObjectVersion
-                  Resource: !Sub arn:aws:s3:::${ArtifactBucket}/*
-
-  CodePipelineServiceRole:
-    Type: AWS::IAM::Role
-    Properties:
-      Path: /
-      AssumeRolePolicyDocument:
-        Statement:
-          - Effect: Allow
-            Principal:
-              Service: codepipeline.amazonaws.com
-            Action: sts:AssumeRole
-      Policies:
-        - PolicyName: root
-          PolicyDocument:
-            Statement:
-              - Resource:
-                  - !Sub arn:aws:s3:::${ArtifactBucket}/*
-                  - !Sub arn:aws:s3:::${ArtifactBucket}
-                Effect: Allow
-                Action:
-                  - s3:*
-              - Resource: "*"
-                Effect: Allow
-                Action:
-                  - codebuild:StartBuild
-                  - codebuild:BatchGetBuilds
-                  - iam:PassRole
-              - Resource:
-                  - !Ref CodeStarConnection
-                Effect: Allow
-                Action:
-                  - codestar-connections:UseConnection
-              - Resource: "*"
-                Effect: Allow
-                Action:
-                  - codedeploy:CreateDeployment
-                  - codedeploy:CreateDeploymentGroup
-                  - codedeploy:GetApplication
-                  - codedeploy:GetApplicationRevision
-                  - codedeploy:GetDeployment
-                  - codedeploy:GetDeploymentConfig
-                  - codedeploy:RegisterApplicationRevision
+              Service:
+                - servicecatalog.amazonaws.com
+            Action:
+              - 'sts:AssumeRole'
