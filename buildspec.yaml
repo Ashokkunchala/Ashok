@@ -7,7 +7,6 @@ build:
       Description: Customer managed policy for read only access to EC2 instance
       Path: '/'
       PolicyDocument:
-        Version: '2012-10-17'
         Statement:
           - Effect: Allow
             Action: 
