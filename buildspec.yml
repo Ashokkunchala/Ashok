@@ -1,18 +1,20 @@
 version: 0.2
-
 phases:
   install:
     runtime-versions:
-      java: corretto8
+      java: corretto11
+    commands:
+      - echo Nothing to do in the install phase
+  pre_build:
+    commands:
+      - echo Nothing to do in the pre_build phase
   build:
     commands:
-      - mvn test
+      - echo build started on 'date'
+      - mvn install
   post_build:
     commands:
-      - echo Build completed on `date`
-      - mvn package
+      - echo build completed on 'date'
 artifacts:
   files:
-    - target/my-app-1.0-SNAPSHOT.jar
-    - appspec.yml
-  discard-paths: yes
+    - 'target/ccdemo.war'
