@@ -1,5 +1,5 @@
 version: 0.2
-Statement:
+buildspec:
   myCustomerManagedPolicyForEC2:
     Type: 'AWS::IAM::ManagedPolicy'
     Properties:
