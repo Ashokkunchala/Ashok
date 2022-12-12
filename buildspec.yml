@@ -1,55 +1,41 @@
-Resources:
-  SCS3LaunchRole:
-    Type: 'AWS::IAM::Role'
-    Properties:
-      RoleName: SCS3LaunchRole 
-      ManagedPolicyArns:
-        - arn:aws:iam::aws:policy/AmazonS3FullAccess      
-      AssumeRolePolicyDocument:
-        version: 0.2
-        Statement:
-          - Effect: Allow
-            Principal:
-              Service:
-                - servicecatalog.amazonaws.com
-            Action:
-              - 'sts:AssumeRole'
-      Path: /
-      Policies:
-        - PolicyName: SCLaunchPolicy
-          PolicyDocument:
-            Statement:
-              - Sid: SCLaunchPolicySID
-                Effect: Allow
-                Action:                  
-                  - "servicecatalog:ListServiceActionsForProvisioningArtifact"
-                  - "servicecatalog:ExecuteprovisionedProductServiceAction"                  
-                  - "iam:ListRolePolicies"
-                  - "iam:ListPolicies"
-                  - "iam:DeleteRole"
-                  - "iam:GetRole"
-                  - "iam:PassRole"
-                  - "iam:ListRoles"
-                  - "iam:CreateRole"
-                  - "iam:DetachRolePolicy"
-                  - "iam:AttachRolePolicy"                                 
-                  - "cloudformation:DescribeStackResource"
-                  - "cloudformation:DescribeStackResources"
-                  - "cloudformation:GetTemplate"
-                  - "cloudformation:List*"
-                  - "cloudformation:DescribeStackEvents"
-                  - "cloudformation:DescribeStacks"
-                  - "cloudformation:CreateStack"
-                  - "cloudformation:DeleteStack"
-                  - "cloudformation:DescribeStackEvents"
-                  - "cloudformation:DescribeStacks"
-                  - "cloudformation:GetTemplateSummary"
-                  - "cloudformation:SetStackPolicy"
-                  - "cloudformation:ValidateTemplate"
-                  - "cloudformation:UpdateStack"               
-                Resource: '*'
-Outputs:
-    LaunchRoleArn:
-        Value: !GetAtt SCS3LaunchRole.Arn
-    LaunchRoleName:
-        Value: !Ref SCS3LaunchRole
+# Lint (cfn-lint) and Package (aws cloudformation package ...) run on templates for all branches.
+# Deploy all templates on 'main' branch (stack names will be built from template names).
+
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      python: 3.9
+  pre_build:
+    commands:
+    - env
+    - aws --version
+    - aws sts get-caller-identity
+    - pip install --quiet --upgrade pip
+    - pip install --quiet --upgrade cfn-lint
+    - cfn-lint --version
+  build:
+    commands:
+    - |
+      set -eux
+      echo "Running Python syntax check"
+      python -m py_compile $(find * -type f -name '*.py')
+      PACKAGED_DIR="/tmp/packaged"
+      rm -rf "$PACKAGED_DIR"
+      mkdir -p "$PACKAGED_DIR"
+      TEMPLATES="$(find ./cloudformation -type f)"
+      echo "Found CloudFormation templates: $TEMPLATES"
+      echo "Running cfn-lint"
+      # cfn-lint rules: https://github.com/aws-cloudformation/cfn-lint/blob/main/docs/rules.md
+      cfn-lint -I $TEMPLATES --ignore-checks W3002
+      for TEMPLATE in $TEMPLATES; do
+        FILENAME="$(basename "$TEMPLATE")"
+        STACK_NAME="${FILENAME%.*}"
+        echo "Packaging template '$TEMPLATE'"
+        aws cloudformation package --template-file "$TEMPLATE" --s3-bucket "$S3_BUCKET" --output-template-file "${PACKAGED_DIR}/${FILENAME}"
+        if [ "$CODEBUILD_SOURCE_VERSION" == 'main' ]; then
+          echo "Deploying template '${PACKAGED_DIR}/${FILENAME}' as stack '$STACK_NAME'"
+          aws cloudformation deploy --template-file "${PACKAGED_DIR}/${FILENAME}" --stack-name "$STACK_NAME" --capabilities CAPABILITY_NAMED_IAM --no-fail-on-empty-changeset --tags "CodeCommitRepository=${CODECOMMIT_REPO_ARN}"
+        fi
+      done
