@@ -7,7 +7,7 @@ Resources:
       ManagedPolicyArns:
         - arn:aws:iam::aws:policy/AmazonS3FullAccess      
       AssumeRolePolicyDocument:
-        Version: 0.2
+        version: 0.2
         Statement:
           - Effect: Allow
             Principal:
@@ -19,7 +19,7 @@ Resources:
       Policies:
         - PolicyName: SCLaunchPolicy
           PolicyDocument:
-            Version: 0.2
+            version: 0.2
             Statement:
               - Sid: SCLaunchPolicySID
                 Effect: Allow
