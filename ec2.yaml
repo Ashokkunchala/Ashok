@@ -1,0 +1,9 @@
+---
+Resources:
+    MyEC2Instance: 
+      Type: AWS::EC2::Instance
+      Properties: 
+       AvailabilityZone: ap-northeast-1a
+       ImageId: ami-072bfb8ae2c884cc4
+       InstanceType: t2.micro
+       KeyName: boto3
