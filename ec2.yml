@@ -5,6 +5,8 @@ Resources:
     Properties:
       ImageId: ami-0beaa649c482330f7
       InstanceType: t2.micro
+      SubnetId: subnet-06dc9c1179579a207
+      VpcId: vpc-040b600f348e441d7
 Parameters:
   InstanceTypeParameter:
     Type: String
