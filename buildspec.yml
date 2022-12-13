@@ -5,7 +5,7 @@ env:
 phases:
   install:
     runtime-versions:
-      dotnet: 3.1
+      python: latest
   build:
     commands:
       - echo "CD into source folder, because my source code is tidy"
