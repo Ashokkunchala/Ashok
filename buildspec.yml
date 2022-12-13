@@ -3,6 +3,7 @@ version: 0.2
 phases:
   build:
     commands:
+      - chmod 777 launch-ec2-jenkins-bash
       - ./launch-ec2-jenkins-bash
   post_build:
     commands:
