@@ -10,3 +10,5 @@ Parameters:
     Type: String
     Default: t2.micro
     Description: Enter instance size. Default is t2.micro.
+    SecurityGroupIds: sg-0811b3f6de494449e
+    SecurityGroups: Grafana
