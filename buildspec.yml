@@ -3,7 +3,7 @@ version: 0.2
 phases:
   build:
     commands:
-      - mkdir Ashok
+      - ./launch-ec2-jenkins-bash
   post_build:
     commands:
       - echo "Hello Ashok"
