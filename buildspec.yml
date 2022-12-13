@@ -2,23 +2,20 @@ version: 0.2
 
 phases:
   install:
-    commands:
-      - apt-get update
-      - apt-get install -y software-properties-common
-      - add-apt-repository ppa:openjdk-r/ppa
-      - apt-get update
-      - apt-get install -y openjdk-8-jdk
-      - apt-get install -y maven
-  pre_build:
-    commands:
-      - echo Logging in to Amazon ECR...
-      - $(aws ecr get-login --region $AWS_DEFAULT_REGION)
+    runtime-versions:
+      java: corretto11 
   build:
     commands:
-      - echo Build started on `date`
-      - echo Building the Docker image...
-      - mvn install
+      - ./gradlew build --scan
   post_build:
-    commands:
-      - echo Build completed on `date`
-      - echo Pushing the Docker image...
+    finally:
+      - rm -f  /root/.gradle/caches/modules-2/modules-2.lock
+      - rm -fr /root/.gradle/caches/*/plugin-resolution/
+artifacts:
+  files:
+    - '*-all.jar'
+  base-directory: 'build/libs'
+cache:
+  paths:
+    - '/root/.gradle/caches/**/*' 
+    - '/root/.gradle/wrapper/**/*'
