@@ -3,7 +3,7 @@ Resources:
     MyEC2Instance: 
       Type: AWS::EC2::Instance
       Properties: 
-       AvailabilityZone: ap-northeast-1a
+       AvailabilityZone: us-east-2c
        ImageId: ami-0beaa649c482330f7
        InstanceType: t2.micro
-       KeyName: boto3
+       KeyName: Grafana-Ashok
