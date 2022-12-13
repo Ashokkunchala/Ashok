@@ -1,19 +1,17 @@
 version: 0.2
-env:
-  variables:
-    ECR_REPO: 449978242056.dkr.ecr.ap-southeast-1.amazonaws.com/myapi
 phases:
   install:
     runtime-versions:
-      docker: 18
+      nodejs: 12
   build:
     commands:
-      - echo "Building a Docker image.."
-      - docker build -t myImage . --file Dockerfile
-      - echo "Tagging Docker image for ECR.."
-      - docker tag myImage ${ECR_REPO}:${CODEBUILD_SOURCE_VERSION}
-      - echo "Logging into ECR.."
-      - $(aws ecr get-login --no-include-email)
-      - echo "Pushing Docker image to ECR.."
-      - docker push ${ECR_REPO}:${CODEBUILD_SOURCE_VERSION}
-      - echo "Done."
+      - echo "Installing dependencies.."
+      - npm install
+      - echo "Unit testing.."
+      - npm test
+      - echo "Building.."
+      - npm build
+artifacts:
+  base-directory: build
+  files:
+    - '**/*'
