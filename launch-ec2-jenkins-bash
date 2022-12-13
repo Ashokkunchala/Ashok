@@ -1,6 +1,9 @@
-#!/bin/bash
-#Author:AshishJain
-
-aws ec2 run-instances --image-id $ami-072bfb8ae2c884cc4 --count $1 --instance-type $t2.micro --key-name $Singapore --security-group-ids $sg-0a9d512afde3b7071 --subnet-id $subnet-0003930e5a8eeeba4
-
-echo "$count EC2 instances have been successfully created. Please check management console"
+---
+Resources:
+    MyEC2Instance: 
+      Type: AWS::EC2::Instance
+      Properties: 
+       AvailabilityZone: ap-northeast-1a
+       ImageId: ami-072bfb8ae2c884cc4
+       InstanceType: t2.micro
+       KeyName: boto3
