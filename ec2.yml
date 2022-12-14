@@ -24,7 +24,6 @@ Resources:
   Ec2Instance:
     Type: AWS::EC2::Instance
     Properties:
-      InstanceName: RL-1
       ImageId: ami-0b0dcb5067f052a63
       KeyName: RL123
       InstanceType: t2.micro
