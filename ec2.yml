@@ -18,14 +18,14 @@ Resources:
         - Key: stack
           Value: production
   NewKeyPair:
-    Type: AWS::EC2::KeyPair::KeyName
+    Type: AWS::EC2::KeyPair
     Properties:
       KeyName: banana
   Ec2Instance:
     Type: AWS::EC2::Instance
     Properties:
       ImageId: ami-0b0dcb5067f052a63
-      KeyName: banana
+      KeyName: !Ref KeyPair
       InstanceType: t2.micro
       UserData:
         Fn::Base64: |
