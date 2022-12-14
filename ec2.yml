@@ -17,3 +17,20 @@ Resources:
       Tags:
         - Key: stack
           Value: production
+  NewKeyPair:
+    Type: AWS::EC2::KeyPair
+    Properties:
+      KeyName: RL123
+  Ec2Instance:
+    Type: AWS::EC2::Instance
+    Properties:
+      ImageId: ami-0b0dcb5067f052a63
+      KeyName: RL123
+      UserData:
+        Fn::Base64: |
+          #!/bin/bash
+          yum update -y # update existing packages
+          yum install -y httpd # install apache web server
+          systemctl start httpd
+          systemctl enable httpd
+          echo "Hello World" > /var/www/html/index.html
