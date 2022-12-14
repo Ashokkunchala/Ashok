@@ -19,28 +19,13 @@ Resources:
       Tags:
         - Key: Name
           Value: DevOps
-  WebServerSecurityGroup:
-    Type: AWS::EC2::SecurityGroup
+  Ec2Instance:
+    Type: AWS::EC2::Instance
     Properties:
-      GroupDescription: Enable HTTP from 0.0.0.0/0
-      SecurityGroupIngress:
-        - IpProtocol: tcp
-          FromPort: "80"
-          ToPort: "80"
-          CidrIp: 0.0.0.0/0
-      VpcId: VPC
-    Ec2Instance:
-    Type: 'AWS::EC2::Instance'
-    Properties:
-      ImageId: !FindInMap 
-        - RegionMap
-        - !Ref 'AWS::Region'
-        - AMI
       InstanceType: t2.micro
+      ImageId: ami-0beaa649c482330f7
+      KeyName: Ashok321
       SubnetId: PublicSubnet
-      KeyName: ashok1
-      SecurityGroupIds:
-        - WebServerSecurityGroup
       UserData:
         Fn::Base64: |
           #!/bin/bash
