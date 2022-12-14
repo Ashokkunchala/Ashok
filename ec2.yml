@@ -2,7 +2,7 @@
 Mappings:
   RegionMap:
     us-east-1:
-      AMI: ami-0b0dcb5067f052a63
+      AMI: "ami-0b0dcb5067f052a63"
 Resources:
   VPC:
     Type: AWS::EC2::VPC
@@ -42,10 +42,7 @@ Resources:
         - AMI
       InstanceType: t2.micro
       SubnetId: PublicSubnet
-  NewKeyPair:
-    Type: AWS::EC2::KeyPair
-    Properties:
-      KeyName: apple
+      KeyName: ashok1
       SecurityGroupIds:
         - WebServerSecurityGroup
       UserData:
