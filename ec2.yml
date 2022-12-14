@@ -11,9 +11,7 @@ Resources:
     Type: AWS::EC2::Subnet
     Properties:
       VpcId: VPC
-      AvailabilityZone:
-        - 0
-        - ""
+      AvailabilityZone: us-east-1b
       CidrBlock: 10.5.1.0/24
       MapPublicIpOnLaunch: true
       Tags:
@@ -23,8 +21,8 @@ Resources:
     Type: AWS::EC2::Instance
     Properties:
       InstanceType: t2.micro
-      ImageId: ami-0beaa649c482330f7
-      KeyName: Ashok321
+      ImageId: ami-0b0dcb5067f052a63
+      KeyName: ashok1
       SubnetId: PublicSubnet
       UserData:
         Fn::Base64: |
