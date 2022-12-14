@@ -18,7 +18,7 @@ Resources:
         - Key: stack
           Value: production
   NewKeyPair:
-    Type: AWS::EC2::KeyPair
+    Type: AWS::EC2::KeyPair::KeyName
     Properties:
       KeyName: banana
   Ec2Instance:
