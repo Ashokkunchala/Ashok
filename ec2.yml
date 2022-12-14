@@ -1,8 +1,4 @@
 ---
-Mappings:
-  RegionMap:
-    us-east-1:
-      ImageId: !Ref test
 Resources:
   VPC:
     Type: AWS::EC2::VPC
@@ -33,12 +29,12 @@ Resources:
           ToPort: "80"
           CidrIp: 0.0.0.0/0
       VpcId: VPC
-  EC2Instance:
-    Type: AWS::EC2::Instance
+    Ec2Instance:
+    Type: 'AWS::EC2::Instance'
     Properties:
-      ImageId:
+      ImageId: !FindInMap 
         - RegionMap
-        - AWS::Region
+        - !Ref 'AWS::Region'
         - AMI
       InstanceType: t2.micro
       SubnetId: PublicSubnet
