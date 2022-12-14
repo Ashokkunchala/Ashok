@@ -2,7 +2,7 @@
 Mappings:
   RegionMap:
     us-east-1:
-      ImageId: ami-0b0dcb5067f052a63
+      ImageId: !Ref test
 Resources:
   VPC:
     Type: AWS::EC2::VPC
