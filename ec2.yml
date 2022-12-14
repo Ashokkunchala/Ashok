@@ -27,7 +27,6 @@ Resources:
       InstanceName: RL-1
       ImageId: ami-0b0dcb5067f052a63
       KeyName: RL123
-      Tenancy: Yes
       InstanceType: t2.micro
       UserData:
         Fn::Base64: |
