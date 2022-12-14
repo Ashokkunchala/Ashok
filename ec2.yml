@@ -2,36 +2,7 @@
 Resources:
   VPC:
     Type: AWS::EC2::VPC
-    Properties:
-      CidrBlock: 10.3.0.0/16
-      Tags:
-        - Key: Name
-          Value: Devops
-  PublicSubnet:
-    Type: AWS::EC2::Subnet
-    Properties:
-      VpcId: VPC
-      AvailabilityZone: us-east-1b
-      CidrBlock: 10.5.1.0/24
-      MapPublicIpOnLaunch: true
-      Tags:
-        - Key: Name
-          Value: DevOps
-  Ec2Instance:
-    Type: AWS::EC2::Instance
-    Properties:
-      InstanceType: t2.micro
-      ImageId: ami-0b0dcb5067f052a63
-      KeyName: ashok1
-      SubnetId: PublicSubnet
-      UserData:
-        Fn::Base64: |
-          #!/bin/bash
-          yum update -y # update existing packages
-          yum install -y httpd # install apache web server
-          systemctl start httpd
-          systemctl enable httpd
-          echo "Hello World" > /var/www/html/index.html
-      Tags:
-        - Key: Name
-          Value: DevOps
+Properties: 
+  CidrBlock: 20.3.0.0/16
+  Tags: 
+    - tag1
