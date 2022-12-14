@@ -10,7 +10,7 @@ Resources:
   MySubnet:
     Type: AWS::EC2::Subnet
     Properties:
-      VpcId:
+      VpcId: vpc-0d15e1acacc042ea0
         Ref: VPC
       CidrBlock: 10.0.0.0/24
       AvailabilityZone: us-east-1a
