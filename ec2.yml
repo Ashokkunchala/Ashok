@@ -20,12 +20,12 @@ Resources:
   NewKeyPair:
     Type: AWS::EC2::KeyPair
     Properties:
-      KeyName: MyKeyPair
+      KeyName: Hyd
   Ec2Instance:
     Type: AWS::EC2::Instance
     Properties:
       ImageId: ami-0b0dcb5067f052a63
-      KeyName: KeyPair
+      KeyName: !Ref NewKeyPair
       InstanceType: t2.micro
       UserData:
         Fn::Base64: |
